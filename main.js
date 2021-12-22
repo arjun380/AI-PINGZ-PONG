@@ -1,5 +1,10 @@
+right_wristX = 0;
+right_wristY = 0;
+scorerightwrist = 0;
 
-/*created by prashant shukla */
+game_status = "";
+
+
 
 var paddle2 =10,paddle1=10;
 
@@ -21,9 +26,13 @@ var ball = {
     dy:3
 }
 
+function preload  (){
+  ball_touchpaddle = loadSound("ball_touch_paddel.wav");
+  missed = loadSound("missed.waw")
+}
 function setup(){
   var canvas =  createCanvas(700,600);
-
+canvas.parent("canvas");
   video = createCapture(VIDEO);
   video.size(700, 600);
   video.hide();
@@ -40,9 +49,10 @@ function modelLoaded(){
 function gotPoses(results){
 if(results.length>0)
   {
-    noseX = results[0].pose.nose.x;
-    noseY = results[0].pose.nose.y;
-    console.log("noseX = "+ noseX +", noseY="+noseY);
+    right_wristX = results[0].pose.rightWrist.x;
+    right_wristY = results[0].pose.rightWrist.y;
+    scorerightwrist = results[0].pose.keypoints[10].score;
+    console.log(scorerightwrist);
   }
 }
 
@@ -50,6 +60,7 @@ if(results.length>0)
 function draw(){
 
  background(0); 
+ image(video, 0, 0, 700, 600);
 
  fill("black");
  stroke("black");
@@ -58,6 +69,19 @@ function draw(){
  fill("black");
  stroke("black");
  rect(0,0,20,700);
+
+ if(scorerightwrist > 0.2)
+ {
+   fill("red");
+   stroke("red");
+   circle(right_wristX. right_wristY, 30);
+ }
+
+ if(game_status == "start")
+ {
+   document.getElementById("status").innerHTML = "Game Is Loaded";
+   
+ 
  
    //funtion paddleInCanvas call 
    paddleInCanvas();
@@ -87,7 +111,7 @@ function draw(){
    //function move call which in very important
     move();
 }
-
+}
 
 
 //function reset when ball does notcame in the contact of padde
@@ -138,9 +162,11 @@ function move(){
   if (ball.x-2.5*ball.r/2< 0){
   if (ball.y >= paddle1Y&& ball.y <= paddle1Y + paddle1Height) {
     ball.dx = -ball.dx+0.5; 
+    ball_touchpaddle.play();
   }
   else{
     pcscore++;
+    missed.play();
     reset();
     navigator.vibrate(100);
   }
@@ -182,4 +208,9 @@ function paddleInCanvas(){
   if(mouseY < 0){
     mouseY =0;
   }  
+}
+
+function restart(){
+  pcscore = 0;
+  loop();
 }
