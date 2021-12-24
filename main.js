@@ -4,7 +4,11 @@ scorerightwrist = 0;
 
 game_status = "";
 
-
+function playgame()
+{
+  game_status = "start";
+  document.getElementById("status").innerHTML = "Game Is Loaded";
+}
 
 var paddle2 =10,paddle1=10;
 
