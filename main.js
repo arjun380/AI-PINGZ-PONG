@@ -78,7 +78,7 @@ function draw(){
  {
    fill("red");
    stroke("red");
-   circle(right_wristX. right_wristY, 30);
+   circle(right_wristX, right_wristY, 30);
  }
 
  if(game_status == "start")
@@ -94,7 +94,7 @@ function draw(){
    fill(250,0,0);
     stroke(0,0,250);
     strokeWeight(0.5);
-   paddle1Y = mouseY; 
+   paddle1Y = right_wristY; 
    rect(paddle1X,paddle1Y,paddle1,paddle1Height,100);
    
    
