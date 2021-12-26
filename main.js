@@ -32,7 +32,7 @@ var ball = {
 
 function preload  (){
   ball_touchpaddle = loadSound("ball_touch_paddel.wav");
-  missed = loadSound("missed.waw")
+  missed = loadSound("missed.wav");
 }
 function setup(){
   var canvas =  createCanvas(700,600);
